@@ -90,7 +90,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "keySpace": MessageLookupByLibrary.simpleMessage("空格"),
         "latestPlayHistory": MessageLookupByLibrary.simpleMessage("最近播放"),
         "leaderboard": MessageLookupByLibrary.simpleMessage("排行榜"),
-        "library": MessageLookupByLibrary.simpleMessage("音乐库"),
+        "library": MessageLookupByLibrary.simpleMessage("乐库"),
         "likeMusic": MessageLookupByLibrary.simpleMessage("喜欢歌曲"),
         "loading": MessageLookupByLibrary.simpleMessage("加载中..."),
         "localMusic": MessageLookupByLibrary.simpleMessage("本地音乐"),

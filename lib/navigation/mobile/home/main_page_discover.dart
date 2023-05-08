@@ -27,6 +27,10 @@ class CloudPageState extends State<MainPageDiscover>
     super.build(context);
     return ListView(
       children: <Widget>[
+        _Header('欢迎新人', () {}),
+        _WelcomeNewcomer(),
+        _Header('诗班/敬拜团', () {}),
+        _Choir(),
         _NavigationLine(),
         _Header('推荐歌单', () {}),
         _SectionPlaylist(),
@@ -296,5 +300,51 @@ class _SectionNewSongs extends ConsumerWidget {
         ),
       ),
     );
+  }
+}
+
+//欢迎新人
+class _WelcomeNewcomer extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return const Text('欢迎新人: '
+        '1. 给”基督徒”熟悉的感觉 '
+        '2. 当“复印朋友”打开此App时不会迷茫'
+        '让新的使用者可以快熟熟悉App的用法。推荐适合他们听的诗歌');
+  }
+}
+
+//诗班/敬拜团
+class _Choir extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Container(
+        margin: const EdgeInsets.symmetric(vertical: 16),
+        child:Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            _ItemNavigator(
+              Icons.calendar_view_week,
+              '本周诗歌',
+                  () => {},
+            ),
+            _ItemNavigator(
+              Icons.dynamic_feed,
+              '动态',
+                  () => {},
+            ),
+            _ItemNavigator(
+              Icons.queue_music,
+              '曲库',
+                  () => {},
+            ),
+            _ItemNavigator(
+              Icons.schedule,
+              '排表',
+                  () => {},
+            ),
+          ],
+        ),
+      );
   }
 }
