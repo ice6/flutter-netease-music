@@ -104,6 +104,8 @@ class MobileNavigatorController extends NavigatorController {
       // tabs
       case NavigationTargetDiscover:
       case NavigationTargetMusicLibrary:
+      case NavigationTargetPublish:
+      case NavigationTargetAudioBook:
       case NavigationTargetLibrary:
         page = PageHome(selectedTab: target);
         break;

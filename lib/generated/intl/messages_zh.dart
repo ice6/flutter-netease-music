@@ -54,6 +54,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "alreadyBuy": MessageLookupByLibrary.simpleMessage("收藏和赞"),
         "artistAlbumCount": m1,
         "artists": MessageLookupByLibrary.simpleMessage("歌手"),
+        "audiobook": MessageLookupByLibrary.simpleMessage("有声"),
         "cancel": MessageLookupByLibrary.simpleMessage("取消"),
         "clear": MessageLookupByLibrary.simpleMessage("清空"),
         "clearPlayHistory": MessageLookupByLibrary.simpleMessage("清空列表"),
@@ -130,6 +131,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "pleaseInputPassword": MessageLookupByLibrary.simpleMessage("请输入密码"),
         "projectDescription": MessageLookupByLibrary.simpleMessage(
             "开源项目 https://github.com/boyan01/flutter-netease-music"),
+        "publish": MessageLookupByLibrary.simpleMessage("发表"),
         "qrCodeExpired": MessageLookupByLibrary.simpleMessage("二维码已过期"),
         "recommendForYou": MessageLookupByLibrary.simpleMessage("为你推荐"),
         "recommendPlayLists": MessageLookupByLibrary.simpleMessage("推荐歌单"),

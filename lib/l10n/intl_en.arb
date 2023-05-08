@@ -1,6 +1,8 @@
 {
   "my": "My",
   "discover": "Discover",
+  "audiobook": "Audio",
+  "publish": "Publish",
   "localMusic": "Local Music",
   "cloudMusic": "Could Space",
   "latestPlayHistory": "Play History",

@@ -70,6 +70,26 @@ class S {
     );
   }
 
+  /// `Audio`
+  String get audiobook {
+    return Intl.message(
+      'Audio',
+      name: 'audiobook',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Publish`
+  String get publish {
+    return Intl.message(
+      'Publish',
+      name: 'publish',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Local Music`
   String get localMusic {
     return Intl.message(

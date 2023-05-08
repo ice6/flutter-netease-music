@@ -7,15 +7,15 @@ import 'package:webview_flutter_android/webview_flutter_android.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 // #enddocregion platform_imports
 
-class MusicLibraryWidget extends StatefulWidget
+class MainPageMusicLibraryWidget extends StatefulWidget
 {
-  const MusicLibraryWidget({super.key});
+  const MainPageMusicLibraryWidget({super.key});
 
   @override
   State<StatefulWidget> createState() => _MusicLibraryState();
 }
 
-class _MusicLibraryState extends State<MusicLibraryWidget>
+class _MusicLibraryState extends State<MainPageMusicLibraryWidget>
 {
   late final WebViewController _controller;
 

@@ -1,3 +1,4 @@
+import 'package:json_annotation/json_annotation.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -285,44 +286,64 @@ class HomeBottomNavigationBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return BottomNavigationBar(
-      currentIndex: kMobileHomeTabs.indexWhere(
-        (element) => element == currentTab.runtimeType,
+    return Theme(
+      data: ThemeData(
       ),
-      selectedItemColor: context.colorScheme.primary,
-      unselectedItemColor: context.colorScheme.textPrimary,
-      onTap: (index) {
-        final NavigationTarget target;
-        switch (index) {
-          case 0:
-            target = NavigationTargetDiscover();
-            break;
-          case 1:
-            target = NavigationTargetMusicLibrary();
-            break;
-          case 2:
-            target = NavigationTargetLibrary();
-            break;
-          default:
-            assert(false, 'unknown index: $index');
-            target = NavigationTargetDiscover();
-        }
-        ref.read(navigatorProvider.notifier).navigate(target);
-      },
-      items: [
-        BottomNavigationBarItem(
-          icon: const Icon(Icons.compass_calibration_rounded),
-          label: context.strings.discover,
+      child: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        showUnselectedLabels: true,
+        currentIndex: kMobileHomeTabs.indexWhere(
+          (element) => element == currentTab.runtimeType,
         ),
-        BottomNavigationBarItem(
-          icon: const Icon(Icons.library_music),
-          label: context.strings.library,
-        ),
-        BottomNavigationBarItem(
-          icon: const Icon(Icons.person),
-          label: context.strings.my,
-        ),
-      ],
+        selectedItemColor: context.colorScheme.primary,
+        unselectedItemColor: context.colorScheme.textPrimary,
+        onTap: (index) {
+          final NavigationTarget target;
+          switch (index) {
+            case 0:
+              target = NavigationTargetDiscover();
+              break;
+            case 1:
+              target = NavigationTargetMusicLibrary();
+              break;
+            case 2:
+              target = NavigationTargetPublish();
+              break;
+            case 3:
+              target = NavigationTargetAudioBook();
+              break;
+            case 4:
+              target = NavigationTargetLibrary();
+              break;
+            default:
+              assert(false, 'unknown index: $index');
+              target = NavigationTargetDiscover();
+          }
+          ref.read(navigatorProvider.notifier).navigate(target);
+        },
+        items: [
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.compass_calibration_rounded),
+            label: context.strings.discover,
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.library_music),
+            label: context.strings.library,
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.mic),
+            label: context.strings.publish,
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.multitrack_audio),
+            label: context.strings.audiobook,
+          ),
+          BottomNavigationBarItem(
+            icon: const Icon(Icons.person),
+            label: context.strings.my,
+          ),
+        ],
+      ),
     );
   }
 }

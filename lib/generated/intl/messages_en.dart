@@ -57,6 +57,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "alreadyBuy": MessageLookupByLibrary.simpleMessage("Payed"),
         "artistAlbumCount": m1,
         "artists": MessageLookupByLibrary.simpleMessage("Artists"),
+        "audiobook": MessageLookupByLibrary.simpleMessage("Audio"),
         "cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "clear": MessageLookupByLibrary.simpleMessage("Clear"),
         "clearPlayHistory":
@@ -154,6 +155,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Please input password"),
         "projectDescription": MessageLookupByLibrary.simpleMessage(
             "OpenSource project https://github.com/boyan01/flutter-netease-music"),
+        "publish": MessageLookupByLibrary.simpleMessage("Publish"),
         "qrCodeExpired":
             MessageLookupByLibrary.simpleMessage("QR code expired"),
         "recommendForYou":
