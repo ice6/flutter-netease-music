@@ -2,6 +2,7 @@ import '../../repository.dart';
 
 const kMobileHomeTabs = [
   NavigationTargetDiscover,
+  NavigationTargetMusicLibrary,
   NavigationTargetLibrary,
 ];
 
@@ -28,6 +29,10 @@ abstract class NavigationTarget {
 
 class NavigationTargetDiscover extends NavigationTarget {
   NavigationTargetDiscover();
+}
+
+class NavigationTargetMusicLibrary extends NavigationTarget {
+  NavigationTargetMusicLibrary();
 }
 
 class NavigationTargetSettings extends NavigationTarget {

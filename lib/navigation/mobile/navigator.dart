@@ -101,7 +101,9 @@ class MobileNavigatorController extends NavigatorController {
     final Widget page;
     var pageType = _PageType.normal;
     switch (target.runtimeType) {
+      // tabs
       case NavigationTargetDiscover:
+      case NavigationTargetMusicLibrary:
       case NavigationTargetLibrary:
         page = PageHome(selectedTab: target);
         break;

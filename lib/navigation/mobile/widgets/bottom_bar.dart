@@ -298,6 +298,9 @@ class HomeBottomNavigationBar extends ConsumerWidget {
             target = NavigationTargetDiscover();
             break;
           case 1:
+            target = NavigationTargetMusicLibrary();
+            break;
+          case 2:
             target = NavigationTargetLibrary();
             break;
           default:
@@ -312,8 +315,12 @@ class HomeBottomNavigationBar extends ConsumerWidget {
           label: context.strings.discover,
         ),
         BottomNavigationBarItem(
-          icon: const Icon(Icons.my_library_music),
+          icon: const Icon(Icons.library_music),
           label: context.strings.library,
+        ),
+        BottomNavigationBarItem(
+          icon: const Icon(Icons.person),
+          label: context.strings.my,
         ),
       ],
     );
