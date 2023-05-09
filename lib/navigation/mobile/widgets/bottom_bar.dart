@@ -287,6 +287,7 @@ class HomeBottomNavigationBar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Theme(
       data: ThemeData(
+
       ),
       child: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,// make items no shift
@@ -296,6 +297,9 @@ class HomeBottomNavigationBar extends ConsumerWidget {
         ),
         selectedItemColor: context.colorScheme.primary,
         unselectedItemColor: context.colorScheme.textPrimary,
+        backgroundColor: context.colorScheme.background,
+        selectedFontSize: 10,
+        unselectedFontSize: 10,
         onTap: (index) {
           final NavigationTarget target;
           switch (index) {
