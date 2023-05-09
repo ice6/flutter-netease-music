@@ -1,9 +1,11 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:carousel_slider/carousel_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../extension.dart';
 import '../../../providers/account_provider.dart';
@@ -55,9 +57,9 @@ class _Body extends HookWidget {
         slivers: [
           _AppBar(controller: scrollController),
           SliverList(delegate: SliverChildListDelegate([
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: _buildBanner()
+            const Padding(
+              padding: EdgeInsets.all(8),
+              child: BannersWidget()
             ),
             // _Header('欢迎新人', () {}),
             // _WelcomeNewcomer(),
@@ -75,8 +77,15 @@ class _Body extends HookWidget {
   }
 }
 
-Widget _buildBanner()
-{
+class BannersWidget extends StatefulWidget {
+  const BannersWidget({super.key});
+
+  @override
+  State<BannersWidget> createState() => _BannersWidgetState();
+}
+
+class _BannersWidgetState extends State<BannersWidget> {
+
   final banners = [
     'https://file.izanmei.net/store/2023/02/17/63eed71148792c70d7007e0a.jpg',
     'https://file.izanmei.net/store/2023/02/14/63eb6f5cd62ebf82e700790f.jpg',
@@ -84,60 +93,108 @@ Widget _buildBanner()
     'https://file.izanmei.net/store/2022/11/29/63857bf0617111e8a602e40d.jpg',
     'https://file.izanmei.net/store/2019/03/07/5c80ac63d963434a3e3297d5.jpg'
   ];
-  return CarouselSlider.builder(
-    itemCount: banners.length,
-    options: CarouselOptions(
-      height: 140,
-      viewportFraction: 1,
-      autoPlay: true,
-    ),
-    itemBuilder: (
-        BuildContext context,
-        int index,
-        int pageViewIndex,
-        ) =>
-        GestureDetector(
-          onTap: () {
-            final text = banners[index];
-            final snackBar = SnackBar(
-              content: Text(text),
-              action: SnackBarAction(
-                label: 'Undo',
-                onPressed: () {
-                  // Some code to undo the change.
-                },
-              ),
-            );
 
-            // Find the ScaffoldMessenger in the widget tree
-            // and use it to show a SnackBar.
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          },
-          child: Card(
-            elevation: 5,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            clipBehavior: Clip.antiAlias,
-            child: CachedNetworkImage(
-              fit: BoxFit.cover,
-              errorWidget: (context, _, __) => const Image(
-                fit: BoxFit.cover,
-                image: AssetImage(
-                  'assets/ytCover.png',
+  int currentIndex = 0;
+
+  @override
+  Widget build(BuildContext context) {
+
+    final slider = CarouselSlider.builder(
+      itemCount: banners.length,
+      options: CarouselOptions(
+        height: 140,
+        viewportFraction: 1,
+        autoPlay: true,
+        onPageChanged: (page, _) {
+          setState(() {
+            currentIndex = page;
+          });
+        },
+      ),
+      itemBuilder: (
+          BuildContext context,
+          int index,
+          int pageViewIndex,
+          ) =>
+          GestureDetector(
+            onTap: () {
+              final text = banners[index];
+              final snackBar = SnackBar(
+                content: Text(text),
+                action: SnackBarAction(
+                  label: 'Undo',
+                  onPressed: () {
+                    // Some code to undo the change.
+                  },
                 ),
+              );
+
+              // Find the ScaffoldMessenger in the widget tree
+              // and use it to show a SnackBar.
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            },
+            child: Card(
+              elevation: 5,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
               ),
-              imageUrl: banners[index].toString(),
-              placeholder: (context, url) => const Image(
+              clipBehavior: Clip.antiAlias,
+              child: CachedNetworkImage(
                 fit: BoxFit.cover,
-                image: AssetImage('assets/ytCover.png'),
+                errorWidget: (context, _, __) => const Image(
+                  fit: BoxFit.cover,
+                  image: AssetImage(
+                    'assets/ytCover.png',
+                  ),
+                ),
+                imageUrl: banners[index].toString(),
+                placeholder: (context, url) => const Image(
+                  fit: BoxFit.cover,
+                  image: AssetImage('assets/ytCover.png'),
+                ),
               ),
             ),
           ),
+    );
+    return Stack(
+      children: [
+        slider,
+        Positioned(
+          left: 16,
+          top: 120,
+          child: AnimatedSmoothIndicator(
+            activeIndex: currentIndex,
+            count: banners.length,
+            // effect: const WormEffect(
+            //   dotHeight: 7,
+            //   dotWidth: 7,
+            //   type: WormType.thinUnderground,
+            // ),
+            // effect: ScrollingDotsEffect(
+            //   activeDotColor: Colors.white,
+            //   dotColor: Colors.white.withOpacity(0.7),
+            //   activeStrokeWidth: 2.6,
+            //   activeDotScale: 1.3,
+            //   maxVisibleDots: 5,
+            //   radius: 4,
+            //   spacing: 5,
+            //   dotHeight: 6,
+            //   dotWidth: 6,
+            // ),
+            effect: ExpandingDotsEffect(
+                activeDotColor: Colors.white,
+                dotColor: Colors.white.withOpacity(0.7),
+                radius: 4,
+                spacing: 5,
+                dotHeight: 6,
+                dotWidth: 6,
+            ),
+          ),
         ),
-  );
+      ],
+    );
+  }
 }
-
 
 class _AppBar extends HookConsumerWidget {
   const _AppBar({super.key, required this.controller});
