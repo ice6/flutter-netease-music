@@ -64,6 +64,8 @@ dependencies:
   system_clock: ^2.0.0
   webview_flutter: ^4.2.0
   animated_text_kit: ^4.2.2
+  cached_network_image: ^3.2.3
+  carousel_slider: ^4.2.1
 
 dev_dependencies:
   flutter_test:
