@@ -13,7 +13,6 @@ import '_playlists.dart';
 import '_preset_grid.dart';
 import '_profile.dart';
 
-///the first page display in page_main
 class MainPageMy extends ConsumerStatefulWidget {
   const MainPageMy({super.key});
 
