@@ -1,7 +1,9 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 import '../../../extension.dart';
 import '../../../providers/account_provider.dart';
@@ -46,12 +48,17 @@ class _Body extends HookWidget {
       76,
       8,
     ].reduce((a, b) => a + b);
+    final colors = [Colors.red, Colors.orange, Colors.yellow, Colors.green, Colors.cyan, Colors.blue, Colors.purple];
     return SafeArea(
       child: CustomScrollView(
         controller: scrollController,
         slivers: [
           _AppBar(controller: scrollController),
           SliverList(delegate: SliverChildListDelegate([
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: _buildBanner()
+            ),
             _Header('欢迎新人', () {}),
             _WelcomeNewcomer(),
             _Header('诗班/敬拜团', () {}),
@@ -66,6 +73,69 @@ class _Body extends HookWidget {
       ),
     );
   }
+}
+
+Widget _buildBanner()
+{
+  final banners = [
+    'https://file.izanmei.net/store/2023/02/17/63eed71148792c70d7007e0a.jpg',
+    'https://file.izanmei.net/store/2023/02/14/63eb6f5cd62ebf82e700790f.jpg',
+    'https://file.izanmei.net/store/2023/02/07/63e1f01e4a415f34ee02a50b.jpg',
+    'https://file.izanmei.net/store/2022/11/29/63857bf0617111e8a602e40d.jpg',
+    'https://file.izanmei.net/store/2019/03/07/5c80ac63d963434a3e3297d5.jpg'
+  ];
+  return CarouselSlider.builder(
+    itemCount: banners.length,
+    options: CarouselOptions(
+      height: 140,
+      viewportFraction: 1,
+      autoPlay: true,
+    ),
+    itemBuilder: (
+        BuildContext context,
+        int index,
+        int pageViewIndex,
+        ) =>
+        GestureDetector(
+          onTap: () {
+            final text = banners[index];
+            final snackBar = SnackBar(
+              content: Text(text),
+              action: SnackBarAction(
+                label: 'Undo',
+                onPressed: () {
+                  // Some code to undo the change.
+                },
+              ),
+            );
+
+            // Find the ScaffoldMessenger in the widget tree
+            // and use it to show a SnackBar.
+            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          },
+          child: Card(
+            elevation: 5,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            clipBehavior: Clip.antiAlias,
+            child: CachedNetworkImage(
+              fit: BoxFit.cover,
+              errorWidget: (context, _, __) => const Image(
+                fit: BoxFit.cover,
+                image: AssetImage(
+                  'assets/ytCover.png',
+                ),
+              ),
+              imageUrl: banners[index].toString(),
+              placeholder: (context, url) => const Image(
+                fit: BoxFit.cover,
+                image: AssetImage('assets/ytCover.png'),
+              ),
+            ),
+          ),
+        ),
+  );
 }
 
 
