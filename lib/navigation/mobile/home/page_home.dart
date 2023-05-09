@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../extension.dart';
 import '../../common/navigation_target.dart';
 import 'main_page_audiobook.dart';
-import 'main_page_musiclibrary.dart';
 import 'main_page_discover.dart';
+import 'main_page_musiclibrary.dart';
 import 'main_page_my.dart';
 import 'main_page_publish.dart';
 

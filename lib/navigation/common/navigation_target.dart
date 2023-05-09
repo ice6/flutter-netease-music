@@ -49,6 +49,10 @@ class NavigationTargetSettings extends NavigationTarget {
   NavigationTargetSettings();
 }
 
+class NavigationTargetQRCodeScan extends NavigationTarget {
+  NavigationTargetQRCodeScan();
+}
+
 class NavigationTargetPlaylist extends NavigationTarget {
   NavigationTargetPlaylist(this.playlistId);
 

@@ -1,23 +1,27 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../extension.dart';
+import '../../../providers/account_provider.dart';
 import '../../../providers/navigator_provider.dart';
 import '../../../providers/personalized_playlist_provider.dart';
 import '../../../repository.dart';
+import '../../common/buttons.dart';
 import '../../common/image.dart';
 import '../../common/navigation_target.dart';
 import '../../common/playlist/track_list_container.dart';
 import '../widgets/track_tile.dart';
 
-class MainPageDiscover extends StatefulWidget {
+class MainPageDiscover extends ConsumerStatefulWidget {
   const MainPageDiscover({super.key});
 
   @override
-  State<StatefulWidget> createState() => CloudPageState();
+  ConsumerState<MainPageDiscover> createState() => MainPageDiscoverState();
 }
 
-class CloudPageState extends State<MainPageDiscover>
+class MainPageDiscoverState extends ConsumerState<MainPageDiscover>
     with AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
@@ -25,20 +29,148 @@ class CloudPageState extends State<MainPageDiscover>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return ListView(
-      children: <Widget>[
-        _Header('欢迎新人', () {}),
-        _WelcomeNewcomer(),
-        _Header('诗班/敬拜团', () {}),
-        _Choir(),
-        _NavigationLine(),
-        _Header('推荐歌单', () {}),
-        _SectionPlaylist(),
-        _Header('最新音乐', () {}),
-        _SectionNewSongs(),
-      ],
+    return const _Body();
+  }
+}
+
+class _Body extends HookWidget {
+  const _Body({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final scrollController = useScrollController();
+    final headerHeight = const <double>[
+      16,
+      70 + 16, // PresetGridSection
+      76,
+      8,
+    ].reduce((a, b) => a + b);
+    return SafeArea(
+      child: CustomScrollView(
+        controller: scrollController,
+        slivers: [
+          _AppBar(controller: scrollController),
+          SliverList(delegate: SliverChildListDelegate([
+            _Header('欢迎新人', () {}),
+            _WelcomeNewcomer(),
+            _Header('诗班/敬拜团', () {}),
+            _Choir(),
+            _NavigationLine(),
+            _Header('推荐歌单', () {}),
+            _SectionPlaylist(),
+            _Header('最新音乐', () {}),
+            _SectionNewSongs(),
+          ]),)
+        ],
+      ),
     );
   }
+}
+
+
+class _AppBar extends HookConsumerWidget {
+  const _AppBar({super.key, required this.controller});
+
+  final ScrollController controller;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final scrollOffset = useListenable(controller).position.pixels;
+    const maxOffset = 32;
+    final t = scrollOffset.clamp(0.0, maxOffset) / maxOffset;
+    final background = context.colorScheme.background.withOpacity(t);
+
+    final user = ref.watch(userProvider);
+    final texts = ['赞美祂名', '大家在搜索 基督徒婚礼', '安静/灵修/敬拜', '家务/骑行/汽车', '午后'];
+
+    return SliverAppBar(
+      leading: AppIconButton(
+        color: context.colorScheme.textPrimary,
+        onPressed: () => ref
+            .read(navigatorProvider.notifier)
+            .navigate(NavigationTargetSettings()),
+        icon: Icons.menu,
+      ),
+      centerTitle: true,
+      title: _searchBoxFadeText(texts, ref),
+      titleSpacing: 0,
+      backgroundColor: background,
+      actions: [
+        AppIconButton(
+          color: context.colorScheme.textPrimary,
+          onPressed: () => ref
+              .read(navigatorProvider.notifier)
+              .navigate(NavigationTargetSearch()),
+          icon: Icons.add,
+        )
+      ],
+      pinned: true,
+      elevation: 0,
+    );
+  }
+}
+
+Widget _searchBoxFadeText(List<String> texts, WidgetRef ref) {
+  return Container(
+    height: 36,
+    decoration: BoxDecoration(
+      color: Colors.grey.shade300.withOpacity(.7),
+      borderRadius: BorderRadius.circular(18),
+    ),
+    child: DefaultTextStyle(
+      style: const TextStyle(
+        color: Colors.black54,
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          GestureDetector(
+            onTap: () => ref
+              .read(navigatorProvider.notifier)
+              .navigate(NavigationTargetSearch()),
+            child: Padding(
+              padding: const EdgeInsets.all(8).copyWith(left: 14, right: 14),
+              child: const Icon(Icons.search_rounded, size: 16,),
+            ),
+          ),
+          Expanded(
+            child: GestureDetector(
+              onTap: () => ref
+                  .read(navigatorProvider.notifier)
+                  .navigate(NavigationTargetSearch()),
+              child: DecoratedBox(
+                decoration: const BoxDecoration(
+                  color: Colors.transparent,
+                ),
+                child: Center(
+                  child: AnimatedTextKit(
+                    repeatForever: true,
+                    onTap: () => ref
+                        .read(navigatorProvider.notifier)
+                        .navigate(NavigationTargetSearch()),
+                    animatedTexts: texts.map((e) => FadeAnimatedText(e,
+                        duration: const Duration(seconds: 3),fadeOutBegin: 0.9,fadeInEnd: 0.7,),)
+                        .toList(),
+                  ),
+                ),
+              ),
+            ),
+          ),
+           GestureDetector(
+             onTap: () => ref
+                 .read(navigatorProvider.notifier)
+                 .navigate(NavigationTargetQRCodeScan()),
+             child: Padding(
+              padding: const EdgeInsets.all(8).copyWith(right: 14, left: 14),
+              child: const Icon(Icons.qr_code, size: 16,),
+          ),
+           ),
+        ],
+      ),
+    ),
+  );
 }
 
 class _NavigationLine extends ConsumerWidget {
@@ -106,9 +238,11 @@ class _Header extends StatelessWidget {
 }
 
 class _ItemNavigator extends StatelessWidget {
-  const _ItemNavigator(this.icon, this.text, this.onTap);
+  const _ItemNavigator(this.icon, this.text, this.onTap, {this.iconSize = 40});
 
   final IconData icon;
+
+  final double? iconSize;
 
   final String text;
 
@@ -127,8 +261,8 @@ class _ItemNavigator extends StatelessWidget {
               elevation: 5,
               child: ClipOval(
                 child: Container(
-                  width: 40,
-                  height: 40,
+                  width: iconSize,
+                  height: iconSize,
                   color: Theme.of(context).primaryColor,
                   child: Icon(
                     icon,
@@ -305,14 +439,126 @@ class _SectionNewSongs extends ConsumerWidget {
 
 //欢迎新人
 class _WelcomeNewcomer extends ConsumerWidget {
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return const Text('欢迎新人: '
-        '1. 给”基督徒”熟悉的感觉 '
-        '2. 当“复印朋友”打开此App时不会迷茫'
-        '让新的使用者可以快熟熟悉App的用法。推荐适合他们听的诗歌');
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 16),
+      child:Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          Expanded(
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 8.0),
+              height: 0.0,
+              color: Colors.grey.shade400,
+            ),
+          ),
+          _ItemNavigator(
+            Icons.looks_one,
+            '相互了解',
+                () => {},
+            iconSize: 32,
+          ),
+          Expanded(
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 8.0),
+              height: 1.0,
+              color: Colors.grey.shade400,
+            ),
+          ),
+          _ItemNavigator(
+            Icons.looks_two,
+            '偏好设置',
+                () => {},
+            iconSize: 32,
+          ),Expanded(
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 8.0),
+              height: 1.0,
+              color: Colors.grey.shade400,
+            ),
+          ),
+          _ItemNavigator(
+            Icons.looks_3,
+            '开启旅程',
+                () => {},
+            iconSize: 32,
+          ),
+          Expanded(
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 8.0),
+              height: 0.0,
+              color: Colors.grey.shade400,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+  // {
+  //   return Row(
+  //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  //   );
+  //   // return const Text('欢迎新人: '
+  //   //     '1. 给”基督徒”熟悉的感觉 '
+  //   //     '2. 当“复印朋友”打开此App时不会迷茫'
+  //   //     '让新的使用者可以快熟熟悉App的用法。推荐适合他们听的诗歌');
+  // }
+}
+
+// 使用matirail design里的stepper不能正常显示，不知道为啥
+class _WelcomeNewbieWidget extends StatefulWidget {
+  const _WelcomeNewbieWidget({super.key});
+
+  @override
+  State<_WelcomeNewbieWidget> createState() => _WelcomeNewbieState();
+}
+
+//欢迎新人
+class _WelcomeNewbieState extends State<_WelcomeNewbieWidget> {
+  int _index = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stepper(
+
+      currentStep: _index,
+      onStepCancel: () {
+        if (_index > 0) {
+          setState(() {
+            _index -= 1;
+          });
+        }
+      },
+      onStepContinue: () {
+        if (_index <= 0) {
+          setState(() {
+            _index += 1;
+          });
+        }
+      },
+      onStepTapped: (int index) {
+        setState(() {
+          _index = index;
+        });
+      },
+      steps: <Step>[
+        Step(
+          title: const Text('Step 1 title'),
+          content: Container(
+              alignment: Alignment.centerLeft,
+              child: const Text('Content for Step 1')),
+        ),
+        const Step(
+          title: Text('Step 2 title'),
+          content: Text('Content for Step 2'),
+        ),
+      ],
+    );
   }
 }
+
 
 //诗班/敬拜团
 class _Choir extends ConsumerWidget {

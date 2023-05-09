@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quiet/navigation/mobile/qrcode/page_qrcode.dart';
 
 import '../../providers/navigator_provider.dart';
 import '../common/navigation_target.dart';
@@ -83,7 +84,14 @@ class MobileNavigatorController extends NavigatorController {
     if (target is NavigationTargetSearch) {
       // Search page is a special page, it should be pushed on top of the current page.
       _pages.removeWhere(
-        (e) => e is NavigationTargetSearch || e is NavigationTargetSearchResult,
+            (e) => e is NavigationTargetSearch || e is NavigationTargetSearchResult,
+      );
+    }
+
+    if (target is NavigationTargetQRCodeScan) {
+      // Search page is a special page, it should be pushed on top of the current page.
+      _pages.removeWhere(
+            (e) => e is NavigationTargetQRCodeScan,
       );
     }
 
@@ -114,6 +122,9 @@ class MobileNavigatorController extends NavigatorController {
           initial: (target as NavigationTargetSearch).initial,
           key: ValueKey(target),
         );
+        break;
+      case NavigationTargetQRCodeScan:
+        page = const PageQRCodeScanner();
         break;
       case NavigationTargetSearchResult:
         page = PageMusicSearchResult(
