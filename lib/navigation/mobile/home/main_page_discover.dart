@@ -12,6 +12,7 @@ import '../../common/buttons.dart';
 import '../../common/image.dart';
 import '../../common/navigation_target.dart';
 import '../../common/playlist/track_list_container.dart';
+import '../mobile_window.dart';
 import '../widgets/track_tile.dart';
 
 class MainPageDiscover extends ConsumerStatefulWidget {
@@ -86,9 +87,9 @@ class _AppBar extends HookConsumerWidget {
     return SliverAppBar(
       leading: AppIconButton(
         color: context.colorScheme.textPrimary,
-        onPressed: () => ref
-            .read(navigatorProvider.notifier)
-            .navigate(NavigationTargetSettings()),
+        onPressed: () =>  {
+          rootScaffoldKey.currentState!.openDrawer()
+        },
         icon: Icons.menu,
       ),
       centerTitle: true,

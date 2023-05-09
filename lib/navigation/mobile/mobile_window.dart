@@ -24,6 +24,8 @@ class MobileWindow extends StatelessWidget {
   }
 }
 
+final rootScaffoldKey = GlobalKey<ScaffoldState>();
+
 class _MobileWindowLayout extends StatelessWidget {
   const _MobileWindowLayout({
     super.key,
@@ -31,10 +33,38 @@ class _MobileWindowLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: context.colorScheme.background,
-      child: const AnimatedAppBottomBar(
-        child: AppNavigator(),
+    return Scaffold(
+      key: rootScaffoldKey,
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            const DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Text('Drawer Header'),
+            ),
+            ListTile(
+              title: const Text('Item 1'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: const Text('Item 2'),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      ),
+      body: Material(
+        color: context.colorScheme.background,
+        child: const AnimatedAppBottomBar(
+          child: AppNavigator(),
+        ),
       ),
     );
   }
