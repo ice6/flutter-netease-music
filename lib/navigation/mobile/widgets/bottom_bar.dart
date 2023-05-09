@@ -290,7 +290,7 @@ class HomeBottomNavigationBar extends ConsumerWidget {
       data: ThemeData(
       ),
       child: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
+        type: BottomNavigationBarType.fixed,// make items no shift
         showUnselectedLabels: true,
         currentIndex: kMobileHomeTabs.indexWhere(
           (element) => element == currentTab.runtimeType,
