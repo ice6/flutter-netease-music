@@ -59,10 +59,10 @@ class _Body extends HookWidget {
               padding: const EdgeInsets.all(8.0),
               child: _buildBanner()
             ),
-            _Header('欢迎新人', () {}),
-            _WelcomeNewcomer(),
-            _Header('诗班/敬拜团', () {}),
-            _Choir(),
+            // _Header('欢迎新人', () {}),
+            // _WelcomeNewcomer(),
+            // _Header('诗班/敬拜团', () {}),
+            // _Choir(),
             _NavigationLine(),
             _Header('推荐歌单', () {}),
             _SectionPlaylist(),
@@ -248,10 +248,17 @@ class _NavigationLine extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 16),
+      margin: const EdgeInsets.symmetric(vertical: 1),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
+          _ItemNavigator(
+            Icons.today,
+            context.strings.dailyRecommend,
+                () => ref
+                .read(navigatorProvider.notifier)
+                .navigate(NavigationTargetDailyRecommend()),
+          ),
           _ItemNavigator(
             Icons.radio,
             context.strings.personalFM,
@@ -260,16 +267,23 @@ class _NavigationLine extends ConsumerWidget {
                 .navigate(NavigationTargetFmPlaying()),
           ),
           _ItemNavigator(
-            Icons.today,
-            context.strings.dailyRecommend,
-            () => ref
-                .read(navigatorProvider.notifier)
-                .navigate(NavigationTargetDailyRecommend()),
-          ),
-          _ItemNavigator(
             Icons.show_chart,
             context.strings.leaderboard,
-            () => ref
+                () => ref
+                .read(navigatorProvider.notifier)
+                .navigate(NavigationTargetLeaderboard()),
+          ),
+          _ItemNavigator(
+            Icons.person_2,
+            context.strings.artists,
+                () => ref
+                .read(navigatorProvider.notifier)
+                .navigate(NavigationTargetLeaderboard()),
+          ),
+          _ItemNavigator(
+            Icons.album,
+            context.strings.album,
+                () => ref
                 .read(navigatorProvider.notifier)
                 .navigate(NavigationTargetLeaderboard()),
           ),
@@ -309,11 +323,11 @@ class _Header extends StatelessWidget {
 }
 
 class _ItemNavigator extends StatelessWidget {
-  const _ItemNavigator(this.icon, this.text, this.onTap, {this.iconSize = 40});
+  const _ItemNavigator(this.icon, this.text, this.onTap, {this.iconSize = 30});
 
   final IconData icon;
 
-  final double? iconSize;
+  final double iconSize;
 
   final String text;
 
@@ -334,16 +348,17 @@ class _ItemNavigator extends StatelessWidget {
                 child: Container(
                   width: iconSize,
                   height: iconSize,
-                  color: Theme.of(context).primaryColor,
+                  color: Theme.of(context).primaryColor.withOpacity(.85),
                   child: Icon(
                     icon,
                     color: Theme.of(context).primaryIconTheme.color,
+                    size: iconSize * 0.7,
                   ),
                 ),
               ),
             ),
             const Padding(padding: EdgeInsets.only(top: 8)),
-            Text(text),
+            Text(text, style: const TextStyle(fontSize: 12)),
           ],
         ),
       ),
