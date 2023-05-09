@@ -47,7 +47,7 @@ class QuietApp extends ConsumerWidget {
           settingStateProvider.select((value) => value.themeMode),
         ),
         home: home,
-        debugShowCheckedModeBanner: false,
+        //debugShowCheckedModeBanner: false,
         builder: (context, child) {
           return AppTheme(
             child: AppPlatformConfiguration(
