@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -31,6 +32,27 @@ class QuietApp extends ConsumerWidget {
         home = const TableWindow();
         break;
     }
+    // SystemChrome.setSystemUIOverlayStyle(
+    //   SystemUiOverlayStyle(
+    //     statusBarColor: Colors.transparent,
+    //     systemNavigationBarColor: AppTheme.themeMode == ThemeMode.dark
+    //         ? Colors.black38
+    //         : Colors.white,
+    //     statusBarIconBrightness: AppTheme.themeMode == ThemeMode.dark
+    //         ? Brightness.light
+    //         : Brightness.dark,
+    //     systemNavigationBarIconBrightness: AppTheme.themeMode == ThemeMode.dark
+    //         ? Brightness.light
+    //         : Brightness.dark,
+    //   ),
+    // );
+    // SystemChrome.setPreferredOrientations([
+    //   DeviceOrientation.portraitUp,
+    //   DeviceOrientation.portraitDown,
+    //   DeviceOrientation.landscapeLeft,
+    //   DeviceOrientation.landscapeRight,
+    // ]);
+
     return GlobalHotkeys(
       child: MaterialApp(
         title: 'Quiet',
