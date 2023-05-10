@@ -33,7 +33,7 @@ enum _PageType {
 
 class MobileNavigatorController extends NavigatorController {
   MobileNavigatorController() {
-    _pages.add(NavigationTargetLibrary());
+    _pages.add(NavigationTarget.discover());
     notifyListeners();
   }
 
