@@ -67,6 +67,16 @@ class _Body extends HookWidget {
             // _Choir(),
             _NavigationLine(),
             _Header('推荐歌单', () {}),
+            _SingleRowPlayListWidget(),
+            _Header('根据 夜间的歌曲 推荐', () {}),
+            _GridPlaylist(),
+            _Header('排行榜', () {}),
+            _RankWidget(),
+            _Header('星评馆', () {}),
+            _ReviewSelectionWidget(),
+            _Header('从Amen的歌词听起', () {}),
+            _AmenLyricWidget(),
+            _Header('根据 新心音乐 推荐', () {}),
             _SectionPlaylist(),
             _Header('最新音乐', () {}),
             _SectionNewSongs(),
@@ -362,17 +372,26 @@ class _Header extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(top: 10, bottom: 6),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          const Padding(padding: EdgeInsets.only(left: 8)),
-          Text(
-            text,
-            style: Theme.of(context)
-                .textTheme
-                .titleMedium!
-                .copyWith(fontWeight: FontWeight.w800),
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              const Padding(padding: EdgeInsets.only(left: 8)),
+              Text(
+                text,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium!
+                    .copyWith(fontWeight: FontWeight.w800),
+              ),
+              const Icon(Icons.chevron_right),
+            ],
           ),
-          const Icon(Icons.chevron_right),
+          InkWell(
+            onTap: () {},
+            child: const Icon(Icons.more_vert),
+          )
         ],
       ),
     );
@@ -423,6 +442,345 @@ class _ItemNavigator extends StatelessWidget {
   }
 }
 
+class _SingleRowPlayListWidget extends ConsumerWidget {
+  final snapshot = [
+    'https://file.izanmei.net/box/2023/05/09/6459dc7bfec84f95e80f9a3a.jpg.webp',
+    'https://file.izanmei.net/box/2023/04/28/644ab2223d4368e1be0f7973.jpg.webp',
+    'https://file.izanmei.net/box/2023/04/25/6447f2152dfeb10b9c0c19a2.jpg.webp',
+    'https://file.izanmei.net/box/2023/04/23/64453829ebfddc4b6600b34a.jpg.webp',
+    'https://file.izanmei.net/box/2023/04/21/64416df2b370e61d8d01b595.jpg.webp'
+  ];
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 6.0),
+      child: SizedBox(
+        width: double.infinity,
+        height: 200,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: snapshot.length,
+          itemBuilder: (BuildContext ctx, index) {
+            if(index == 0) {
+              return const SizedBox(
+                  width: 140,
+                  height: 140,
+                  child: _RoamPlaylistWidget()
+              );
+            }
+            index = index - 1;
+            return InkWell(
+              onTap: () {
+
+              },
+              child: SizedBox(
+                width: 140,
+                height: 140,
+                child: Column(
+                  children: [
+                    Card (
+                      elevation: 5,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      clipBehavior: Clip.antiAlias,
+                      child: CachedNetworkImage(
+                        fit: BoxFit.cover,
+                        errorWidget: (context, _, __) => const Image(
+                          fit: BoxFit.cover,
+                          image: AssetImage(
+                            'assets/song.png',
+                          ),
+                        ),
+                        imageUrl: snapshot[index].toString(),
+                        placeholder: (context, url) => const Image(
+                          fit: BoxFit.cover,
+                          image: AssetImage('assets/song.png'),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(4.0).copyWith(top: 4),
+                      child: const Text(
+                        '上帝伟大奇妙、带我们出黑暗入光明， 神也是我们个人的神，喜欢我们与祂互动的神',
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(fontSize: 14),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class _RoamPlaylistWidget extends StatefulWidget {
+  const _RoamPlaylistWidget({super.key});
+
+  @override
+  State<_RoamPlaylistWidget> createState() => _RoamPlaylistWidgetState();
+}
+
+class _RoamPlaylistWidgetState extends State<_RoamPlaylistWidget> {
+  final banners = [
+    'https://file.izanmei.net/box/2023/05/09/6459dc7bfec84f95e80f9a3a.jpg.webp',
+    'https://file.izanmei.net/box/2023/04/28/644ab2223d4368e1be0f7973.jpg.webp',
+    'https://file.izanmei.net/box/2023/04/25/6447f2152dfeb10b9c0c19a2.jpg.webp',
+    'https://file.izanmei.net/box/2023/04/23/64453829ebfddc4b6600b34a.jpg.webp',
+  ];
+
+  int currentIndex = 0;
+
+  @override
+  Widget build(BuildContext context) {
+
+    final slider = CarouselSlider.builder(
+      itemCount: banners.length,
+      options: CarouselOptions(
+        height: 140,
+        viewportFraction: 1,
+        autoPlay: true,
+        scrollDirection: Axis.vertical,
+        onPageChanged: (page, _) {
+          setState(() {
+            currentIndex = page;
+          });
+        },
+      ),
+      itemBuilder: (
+          BuildContext context,
+          int index,
+          int pageViewIndex,
+          ) =>
+          GestureDetector(
+            onTap: () {
+              final text = banners[index];
+              final snackBar = SnackBar(
+                content: Text(text),
+                action: SnackBarAction(
+                  label: 'Undo',
+                  onPressed: () {
+                    // Some code to undo the change.
+                  },
+                ),
+              );
+
+              // Find the ScaffoldMessenger in the widget tree
+              // and use it to show a SnackBar.
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
+            },
+            child: Card(
+              elevation: 5,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              clipBehavior: Clip.antiAlias,
+              child: CachedNetworkImage(
+                fit: BoxFit.cover,
+                errorWidget: (context, _, __) => const Image(
+                  fit: BoxFit.cover,
+                  image: AssetImage(
+                    'assets/song.png',
+                  ),
+                ),
+                imageUrl: banners[index].toString(),
+                placeholder: (context, url) => const Image(
+                  fit: BoxFit.cover,
+                  image: AssetImage('assets/song.png'),
+                ),
+              ),
+            ),
+          ),
+    );
+    return Column(
+      children: [
+        slider,
+        Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Stack(
+            children: [
+              AnimatedOpacity(
+                opacity: currentIndex.isOdd ? 1.0 : 0.0,
+                duration: const Duration(milliseconds: 300),
+                child: const Text(
+                  '上帝伟大奇妙、带我们出黑暗入光明， 神也是我们个人的神，喜欢我们与祂互动的神',
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontSize: 14),
+                ),
+              ),
+              AnimatedOpacity(
+                opacity: currentIndex.isEven ? 1.0 : 0.0,
+                duration: const Duration(milliseconds: 300),
+                child: const Text(
+                  '我们应当回应上帝的爱',
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontSize: 14),
+                ),
+              ),
+            ],
+          ),
+        )
+      ],
+    );
+  }
+}
+
+/* region [GRID布局 TODO: 用PageView代替] */
+class _GridPlaylist extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final snapshot = ref.watch(homePlaylistProvider.logErrorOnDebug());
+    final axisWidth = (MediaQuery.of(context).size.width - 30).clamp(320.0, 360.0);
+    const height = 200.0;//3 * 60 + (3-1)*10
+
+    return snapshot.when(
+      data: (list) {
+        return DecoratedBox(
+          decoration: const BoxDecoration(
+            color: Colors.transparent,
+          ),
+          child: SizedBox(
+            width: double.infinity,
+            height: height,
+            child: GridView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: list.length,
+              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 10,
+                  maxCrossAxisExtent: 60,
+                  mainAxisExtent: axisWidth,
+              ),
+              itemBuilder: (context, index) {
+                return _GridItemView(playlist: list[index], width: axisWidth, height: 60);
+              },
+            ),
+          ),
+        );
+      },
+      error: (error, stacktrace) {
+        return SizedBox(
+          height: 200,
+          child: Center(
+            child: Text(context.formattedError(error)),
+          ),
+        );
+      },
+      loading: () => const SizedBox(
+        height: 200,
+        child: Center(
+          child: SizedBox.square(
+            dimension: 24,
+            child: CircularProgressIndicator(),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _GridItemView extends ConsumerWidget {
+  const _GridItemView({
+    super.key,
+    required this.playlist,
+    required this.width,
+    required this.height,
+  });
+
+  final RecommendedPlaylist playlist;
+
+  final double width;
+
+  final double height;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    GestureLongPressCallback? onLongPress;
+
+    if (playlist.copywriter.isNotEmpty) {
+      onLongPress = () {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              content: Text(
+                playlist.copywriter,
+                style: Theme.of(context).textTheme.bodyLarge,
+              ),
+            );
+          },
+        );
+      };
+    }
+
+    return InkWell(
+      onTap: () => ref
+          .read(navigatorProvider.notifier)
+          .navigate(NavigationTargetPlaylist(playlist.id)),
+      onLongPress: onLongPress,
+      child: DecoratedBox(
+        decoration: const BoxDecoration(
+          color: Colors.transparent,
+        ),
+        child: Container(
+          width: width,
+          padding: const EdgeInsets.symmetric(horizontal: 4),
+          child: Row(
+            children: <Widget>[
+              SizedBox(
+                height: height,
+                width: height,
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.all(Radius.circular(6)),
+                  child: AspectRatio(
+                    aspectRatio: 1,
+                    child: AppImage(url: playlist.picUrl),
+                  ),
+                ),
+              ),
+              const Padding(padding: EdgeInsets.only(left: 4)),
+              DecoratedBox(
+                decoration: const BoxDecoration(
+                  color: Colors.transparent,
+                ),
+                child: SizedBox(
+                  width: width - height - 4 - 8,
+                  height: height,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        playlist.name,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      Text(
+                        playlist.name,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+/* endregion */
+
+/* region [LayoutBuilder 平淡无奇的布局] */
 class _SectionPlaylist extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -445,7 +803,7 @@ class _SectionPlaylist extends ConsumerWidget {
               child: Wrap(
                 spacing: spacing,
                 children: list.map<Widget>((p) {
-                  return _PlayListItemView(playlist: p, width: width);
+                  return _PlayListItemWidget(playlist: p, width: width);
                 }).toList(),
               ),
             );
@@ -473,8 +831,8 @@ class _SectionPlaylist extends ConsumerWidget {
   }
 }
 
-class _PlayListItemView extends ConsumerWidget {
-  const _PlayListItemView({
+class _PlayListItemWidget extends ConsumerWidget {
+  const _PlayListItemWidget({
     super.key,
     required this.playlist,
     required this.width,
@@ -537,6 +895,301 @@ class _PlayListItemView extends ConsumerWidget {
     );
   }
 }
+/* endregion */
+
+/*region 排行榜*/
+class _RankWidget extends ConsumerWidget {
+  final _controller = PageController(viewportFraction: .96);
+  final titles = ['社区互动榜', '编辑精选榜', '热歌榜', '原创榜', 'MV榜', '热门视频榜'];
+  final rows = [
+    'https://file.izanmei.net/box/2023/05/09/6459dc7bfec84f95e80f9a3a.jpg.webp',
+    'https://file.izanmei.net/box/2023/04/28/644ab2223d4368e1be0f7973.jpg.webp',
+    'https://file.izanmei.net/box/2023/04/25/6447f2152dfeb10b9c0c19a2.jpg.webp',
+  ];
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return SizedBox(
+      height: 252,
+      child: PageView.builder(
+        padEnds: false,
+        controller: _controller,
+        itemCount: titles.length,
+        physics: const PageScrollPhysics(parent: BouncingScrollPhysics()),
+        itemBuilder: (BuildContext context, int index) {
+          return Padding(
+            padding: EdgeInsets.only(left: 4),
+            child: Card(
+              elevation: 3,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              clipBehavior: Clip.antiAlias,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(titles[index], style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                          Text(titles[index]),
+                        ],
+                      ),
+                    ),
+                    Column(
+                      children: rows.map((e) => InkWell(
+                        onTap: () {
+
+                        },
+                        child: SizedBox(
+                          height: 60,
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                height: 60,
+                                width: 60,
+                                child: Card (
+                                  elevation: 5,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  clipBehavior: Clip.antiAlias,
+                                  child: CachedNetworkImage(
+                                    fit: BoxFit.cover,
+                                    errorWidget: (context, _, __) => const Image(
+                                      fit: BoxFit.cover,
+                                      image: AssetImage(
+                                        'assets/song.png',
+                                      ),
+                                    ),
+                                    imageUrl: e,
+                                    placeholder: (context, url) => const Image(
+                                      fit: BoxFit.cover,
+                                      image: AssetImage('assets/song.png'),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 8),
+                                child: Text(index.toString(), style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                              ),
+                              Expanded(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      '上帝伟大奇妙',
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w900),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 2),
+                                      child: Text(
+                                        '刘冰',
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(fontSize: 14, color: context.colorScheme.textHint),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),).toList(),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+/*endregion*/
+
+/*region 星评馆（请专业的人进行评论推荐） 后端评论分类后 可以像网易那样分类 PageView*/
+class _ReviewSelectionWidget extends ConsumerWidget {
+  static const px = 16.0;
+  final _controller = PageController(viewportFraction: .96);
+  final titles = ['你真伟大', '心的归属', '夜晚的歌曲'];
+  final reviews = ['上帝伟大奇妙', '虽万千过往', '都随风飘去'];
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return SizedBox(
+      height: 200,
+      child: PageView.builder(
+        padEnds: false,
+        controller: _controller,
+        itemCount: titles.length,
+        physics: const PageScrollPhysics(parent: BouncingScrollPhysics()),
+        itemBuilder: (BuildContext context, int index) {
+          return Padding(
+            padding: const EdgeInsets.only(left: 4),
+            child: Card(
+              elevation: 3,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              clipBehavior: Clip.antiAlias,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: Colors.brown.shade300,
+                ),
+                child: Column(
+                  children: [
+                    DecoratedBox(
+                      decoration: const BoxDecoration(
+                        color: Colors.brown,
+                      ),
+                      child: SizedBox(
+                        height: 40,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: px),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(titles[index], style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                              Text(titles[index]),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(px),
+                        child: Row(
+                          children: [
+                            Text(reviews[index]),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 40,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: px),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Text('100人觉得赞', style: TextStyle(fontSize: 12, color: context.colorScheme.textHint)),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                const Icon(Icons.thumb_up_alt_outlined, size: 14),
+                                Text(' 赞一下', style: TextStyle(fontSize: 12, color: context.colorScheme.textHint)),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+/*endregion*/
+
+/*region Amen Lyric PageView*/
+class _AmenLyricWidget extends ConsumerWidget {
+  static const px = 16.0;
+  final _controller = PageController(viewportFraction: .7);
+  final titles = ['你真伟大', '心的归属', '夜晚的歌曲'];
+  final lyrics = ['上帝伟大奇妙\n虽万千过往\n哈哈哈\n哈哈', '虽万千过往', '都随风飘去'];
+  final images = [
+    'https://file.izanmei.net/box/2023/04/28/644ab2223d4368e1be0f7973.jpg.webp',
+    'https://file.izanmei.net/box/2023/04/25/6447f2152dfeb10b9c0c19a2.jpg.webp',
+    'https://file.izanmei.net/box/2023/04/23/64453829ebfddc4b6600b34a.jpg.webp',
+  ];
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return SizedBox(
+      height: 180,
+      child: PageView.builder(
+        padEnds: false,
+        controller: _controller,
+        itemCount: titles.length,
+        physics: const PageScrollPhysics(parent: BouncingScrollPhysics()),
+        itemBuilder: (BuildContext context, int index) {
+          return Padding(
+            padding: const EdgeInsets.only(left: 4),
+            child: Card(
+              elevation: 3,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              clipBehavior: Clip.antiAlias,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: Colors.brown.shade300,
+                ),
+                child: Column(
+                  children: [
+                    DecoratedBox(
+                      decoration: const BoxDecoration(
+                        color: Colors.brown,
+                      ),
+                      child: SizedBox(
+                        height: 40,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: px),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(titles[index], style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                              Text(titles[index]),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: px, vertical: 4),
+                        child: Row(
+                          children: [
+                            Text(lyrics[index],
+                              maxLines: 4,
+                              overflow: TextOverflow.clip,
+                              style: const TextStyle(height: 1.7, fontSize: 16)
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+/*endregion*/
+
+/*region 心颂精选 Closable PageView*/
+
+/*endregion*/
 
 class _SectionNewSongs extends ConsumerWidget {
   @override
