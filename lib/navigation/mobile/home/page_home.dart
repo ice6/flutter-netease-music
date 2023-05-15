@@ -30,7 +30,7 @@ class PageHome extends StatelessWidget {
       case NavigationTargetAudioBook:
         body = const MainPageAudioBookWidget();
         break;
-      case NavigationTargetLibrary:
+      case NavigationTargetMine:
         body = const MainPageMy();
         break;
       default:

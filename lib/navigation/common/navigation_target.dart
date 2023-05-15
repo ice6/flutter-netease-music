@@ -5,7 +5,7 @@ const kMobileHomeTabs = [
   NavigationTargetMusicLibrary,
   NavigationTargetPublish,
   NavigationTargetAudioBook,
-  NavigationTargetLibrary,
+  NavigationTargetMine,
 ];
 
 const kMobilePopupPages = {
@@ -74,8 +74,8 @@ class NavigationTargetFmPlaying extends NavigationTarget {
   NavigationTargetFmPlaying();
 }
 
-class NavigationTargetLibrary extends NavigationTarget {
-  NavigationTargetLibrary();
+class NavigationTargetMine extends NavigationTarget {
+  NavigationTargetMine();
 }
 
 class NavigationTargetSearch extends NavigationTarget {

@@ -35,7 +35,7 @@ class AnimatedAppBottomBar extends HookConsumerWidget {
 
     final bool hideNavigationBar;
     if (!kMobileHomeTabs.contains(currentRoute.runtimeType)) {
-      currentTab = lastHomeTarget.value ?? NavigationTargetLibrary();
+      currentTab = lastHomeTarget.value ?? NavigationTargetMine();
       hideNavigationBar = true;
     } else {
       currentTab = currentRoute;
@@ -316,7 +316,7 @@ class HomeBottomNavigationBar extends ConsumerWidget {
               target = NavigationTargetAudioBook();
               break;
             case 4:
-              target = NavigationTargetLibrary();
+              target = NavigationTargetMine();
               break;
             default:
               assert(false, 'unknown index: $index');
