@@ -295,9 +295,11 @@ class HomeBottomNavigationBar extends ConsumerWidget {
         currentIndex: kMobileHomeTabs.indexWhere(
           (element) => element == currentTab.runtimeType,
         ),
-        selectedItemColor: context.colorScheme.primary,
-        unselectedItemColor: context.colorScheme.textPrimary,
+        selectedItemColor: context.colorScheme.primary.withOpacity(.9),
+        unselectedItemColor: context.colorScheme.textPrimary.withOpacity(.4),
         backgroundColor: context.colorScheme.background,
+        selectedLabelStyle: const TextStyle(fontWeight: FontWeight.w900),
+        unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w900),
         selectedFontSize: 10,
         unselectedFontSize: 10,
         onTap: (index) {
@@ -326,7 +328,7 @@ class HomeBottomNavigationBar extends ConsumerWidget {
         },
         items: [
           BottomNavigationBarItem(
-            icon: const Icon(Icons.compass_calibration_rounded),
+            icon: const Icon(Icons.compass_calibration),
             label: context.strings.discover,
           ),
           BottomNavigationBarItem(

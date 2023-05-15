@@ -39,9 +39,7 @@ ThemeData get quietDarkTheme {
       .applyCommon();
 }
 
-ThemeData get lightTheme => _buildTheme(lightSwatch);
-
-ThemeData _buildTheme(Color primaryColor) {
+ThemeData get lightTheme {
   final theme = ThemeData.from(
     colorScheme: const ColorScheme.light(
       primary: lightSwatch,
