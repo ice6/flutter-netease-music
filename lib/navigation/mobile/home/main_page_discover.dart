@@ -1,7 +1,6 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:carousel_slider/carousel_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -75,6 +74,8 @@ class _Body extends HookWidget {
             _Header('星评馆', () {}),
             _ReviewSelectionWidget(),
             _Header('从Amen的歌词听起', () {}),
+            _AmenLyricWidget(),
+            _Header('优质Cover(翻唱)', () {}),
             _AmenLyricWidget(),
             _Header('根据 新心音乐 推荐', () {}),
             _SectionPlaylist(),
@@ -1170,6 +1171,86 @@ class _AmenLyricWidget extends ConsumerWidget {
                               maxLines: 4,
                               overflow: TextOverflow.clip,
                               style: const TextStyle(height: 1.7, fontSize: 16)
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+/*endregion*/
+
+
+/*region 优质Cover/Feat */
+class _HighQualityWidget extends ConsumerWidget {
+  static const px = 16.0;
+  final _controller = PageController(viewportFraction: .7);
+  final titles = ['你真伟大', '心的归属', '夜晚的歌曲'];
+  final lyrics = ['上帝伟大奇妙\n虽万千过往\n哈哈哈\n哈哈', '虽万千过往', '都随风飘去'];
+  final images = [
+    'https://file.izanmei.net/box/2023/04/28/644ab2223d4368e1be0f7973.jpg.webp',
+    'https://file.izanmei.net/box/2023/04/25/6447f2152dfeb10b9c0c19a2.jpg.webp',
+    'https://file.izanmei.net/box/2023/04/23/64453829ebfddc4b6600b34a.jpg.webp',
+  ];
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return SizedBox(
+      height: 180,
+      child: PageView.builder(
+        padEnds: false,
+        controller: _controller,
+        itemCount: titles.length,
+        physics: const PageScrollPhysics(parent: BouncingScrollPhysics()),
+        itemBuilder: (BuildContext context, int index) {
+          return Padding(
+            padding: const EdgeInsets.only(left: 4),
+            child: Card(
+              elevation: 3,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              clipBehavior: Clip.antiAlias,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: Colors.brown.shade300,
+                ),
+                child: Column(
+                  children: [
+                    DecoratedBox(
+                      decoration: const BoxDecoration(
+                        color: Colors.brown,
+                      ),
+                      child: SizedBox(
+                        height: 40,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: px),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(titles[index], style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                              Text(titles[index]),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: px, vertical: 4),
+                        child: Row(
+                          children: [
+                            Text(lyrics[index],
+                                maxLines: 4,
+                                overflow: TextOverflow.clip,
+                                style: const TextStyle(height: 1.7, fontSize: 16)
                             ),
                           ],
                         ),

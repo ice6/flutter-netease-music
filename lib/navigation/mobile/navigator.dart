@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:quiet/navigation/mobile/qrcode/page_qrcode.dart';
 
 import '../../providers/navigator_provider.dart';
 import '../common/navigation_target.dart';
@@ -13,6 +12,7 @@ import 'playlists/page_album_detail.dart';
 import 'playlists/page_daily_playlist.dart';
 import 'playlists/page_playlist_detail.dart';
 import 'playlists/page_playlist_edit.dart';
+import 'qrcode/page_qrcode.dart';
 import 'search/page_search.dart';
 import 'search/page_search_music_result.dart';
 import 'settings/page_setting.dart';
@@ -76,7 +76,7 @@ class MobileNavigatorController extends NavigatorController {
 
   @override
   void navigate(NavigationTarget target) {
-    if (current.isTheSameTarget(target)) {
+    if (current.isTheSameTarget(target)) { // page_home_view_pager中 可有效避免死循环 :P
       debugPrint('Navigation: already on $target');
       return;
     }
