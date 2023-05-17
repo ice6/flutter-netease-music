@@ -58,7 +58,7 @@ class _Body extends HookWidget {
           SliverList(delegate: SliverChildListDelegate([
             const Padding(
               padding: EdgeInsets.all(8),
-              child: BannersWidget()
+              child: BannersWidget(),
             ),
             // _Header('欢迎新人', () {}),
             // _WelcomeNewcomer(),
@@ -253,12 +253,24 @@ Widget _searchBoxFadeText(List<String> texts, WidgetRef ref) {
   return Container(
     height: 36,
     decoration: BoxDecoration(
-      color: Colors.grey.shade300.withOpacity(.7),
+      color: Colors.grey.shade300.withOpacity(.4),
       borderRadius: BorderRadius.circular(18),
+      gradient: LinearGradient(
+        // Where the linear gradient begins and ends
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        // Add one stop for each color. Stops should increase from 0 to 1
+        stops: const [ 0.2, 0.9],
+        colors: [
+          // Colors are easy thanks to Flutter's Colors class.
+          Colors.purple[100]!,
+          Colors.purple[200]!,
+        ],
+      ),
     ),
     child: DefaultTextStyle(
       style: const TextStyle(
-        color: Colors.black54,
+        color: Colors.grey,
         fontSize: 16,
         fontWeight: FontWeight.bold,
       ),
@@ -271,7 +283,7 @@ Widget _searchBoxFadeText(List<String> texts, WidgetRef ref) {
               .navigate(NavigationTargetSearch()),
             child: Padding(
               padding: const EdgeInsets.all(8).copyWith(left: 14, right: 14),
-              child: const Icon(Icons.search_rounded, size: 16,),
+              child: const Icon(Icons.search_rounded, size: 16, color: Colors.grey,),
             ),
           ),
           Expanded(
@@ -290,7 +302,9 @@ Widget _searchBoxFadeText(List<String> texts, WidgetRef ref) {
                         .read(navigatorProvider.notifier)
                         .navigate(NavigationTargetSearch()),
                     animatedTexts: texts.map((e) => FadeAnimatedText(e,
-                        duration: const Duration(seconds: 3),fadeOutBegin: 0.9,fadeInEnd: 0.7,),)
+                        duration: const Duration(seconds: 3),
+                        fadeOutBegin: 0.9,
+                        fadeInEnd: 0.7,),)
                         .toList(),
                   ),
                 ),
@@ -303,7 +317,7 @@ Widget _searchBoxFadeText(List<String> texts, WidgetRef ref) {
                  .navigate(NavigationTargetQRCodeScan()),
              child: Padding(
               padding: const EdgeInsets.all(8).copyWith(right: 14, left: 14),
-              child: const Icon(Icons.qr_code, size: 16,),
+              child: const Icon(Icons.qr_code, size: 16,color: Colors.grey,),
           ),
            ),
         ],
@@ -428,7 +442,7 @@ class _ItemNavigator extends StatelessWidget {
                   color: Theme.of(context).primaryColor.withOpacity(.85),
                   child: Icon(
                     icon,
-                    color: Theme.of(context).primaryIconTheme.color,
+                    color: Theme.of(context).primaryIconTheme.color?.withOpacity(.85),
                     size: iconSize * 0.7,
                   ),
                 ),
