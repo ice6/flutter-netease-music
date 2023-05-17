@@ -32,20 +32,20 @@ class QuietApp extends ConsumerWidget {
         home = const TableWindow();
         break;
     }
-    // SystemChrome.setSystemUIOverlayStyle(
-    //   SystemUiOverlayStyle(
-    //     statusBarColor: Colors.transparent,
-    //     systemNavigationBarColor: AppTheme.themeMode == ThemeMode.dark
-    //         ? Colors.black38
-    //         : Colors.white,
-    //     statusBarIconBrightness: AppTheme.themeMode == ThemeMode.dark
-    //         ? Brightness.light
-    //         : Brightness.dark,
-    //     systemNavigationBarIconBrightness: AppTheme.themeMode == ThemeMode.dark
-    //         ? Brightness.light
-    //         : Brightness.dark,
-    //   ),
-    // );
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        // systemNavigationBarColor: AppTheme.themeMode == ThemeMode.dark
+        //     ? Colors.black38
+        //     : Colors.white,
+        // statusBarIconBrightness: AppTheme.themeMode == ThemeMode.dark
+        //     ? Brightness.light
+        //     : Brightness.dark,
+        // systemNavigationBarIconBrightness: AppTheme.themeMode == ThemeMode.dark
+        //     ? Brightness.light
+        //     : Brightness.dark,
+      ),
+    );
     // SystemChrome.setPreferredOrientations([
     //   DeviceOrientation.portraitUp,
     //   DeviceOrientation.portraitDown,
