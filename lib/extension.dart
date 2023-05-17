@@ -7,6 +7,7 @@ export 'extension/numbers.dart';
 export 'extension/providers.dart';
 export 'extension/routes.dart';
 export 'extension/strings.dart';
+export 'extension/themeMode.dart';
 export 'navigation/common/material/theme.dart';
 
 void importExtension() {}
