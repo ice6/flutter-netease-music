@@ -522,6 +522,36 @@ class S {
     );
   }
 
+  /// `Extended Play`
+  String get ep {
+    return Intl.message(
+      'Extended Play',
+      name: 'ep',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `group`
+  String get group {
+    return Intl.message(
+      'group',
+      name: 'group',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `lyric`
+  String get lyric {
+    return Intl.message(
+      'lyric',
+      name: 'lyric',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Duration`
   String get duration {
     return Intl.message(
