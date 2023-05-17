@@ -82,6 +82,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "delete": MessageLookupByLibrary.simpleMessage("delete"),
         "discover": MessageLookupByLibrary.simpleMessage("Discover"),
         "duration": MessageLookupByLibrary.simpleMessage("Duration"),
+        "ep": MessageLookupByLibrary.simpleMessage("Extended Play"),
         "errorNotLogin":
             MessageLookupByLibrary.simpleMessage("Please login first."),
         "errorToFetchData":
@@ -98,6 +99,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "friends": MessageLookupByLibrary.simpleMessage("Friends"),
         "functionDescription":
             MessageLookupByLibrary.simpleMessage("Description"),
+        "group": MessageLookupByLibrary.simpleMessage("group"),
         "hideCopyrightOverlay":
             MessageLookupByLibrary.simpleMessage("Hide Copyright Overlay"),
         "intelligenceRecommended":
@@ -122,6 +124,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "loginWithPhone":
             MessageLookupByLibrary.simpleMessage("login with phone"),
         "logout": MessageLookupByLibrary.simpleMessage("Logout"),
+        "lyric": MessageLookupByLibrary.simpleMessage("lyric"),
         "musicCountFormat": m3,
         "musicName": MessageLookupByLibrary.simpleMessage("Music Name"),
         "my": MessageLookupByLibrary.simpleMessage("My"),
