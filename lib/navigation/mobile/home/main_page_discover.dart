@@ -534,6 +534,7 @@ class _SingleRowPlayListWidget extends ConsumerWidget {
   }
 }
 
+/* region [歌单漫游] */
 class _RoamPlaylistWidget extends StatefulWidget {
   const _RoamPlaylistWidget({super.key});
 
@@ -646,6 +647,7 @@ class _RoamPlaylistWidgetState extends State<_RoamPlaylistWidget> {
     );
   }
 }
+/* endregion */
 
 /* region [GRID布局 TODO: 用PageView代替] */
 class _GridPlaylist extends ConsumerWidget {
@@ -1202,7 +1204,6 @@ class _AmenLyricWidget extends ConsumerWidget {
 }
 /*endregion*/
 
-
 /*region 优质Cover/Feat */
 class _HighQualityWidget extends ConsumerWidget {
   static const px = 16.0;
@@ -1449,7 +1450,6 @@ class _WelcomeNewbieState extends State<_WelcomeNewbieWidget> {
     );
   }
 }
-
 
 //诗班/敬拜团
 class _Choir extends ConsumerWidget {
